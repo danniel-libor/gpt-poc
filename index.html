@@ -110,6 +110,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.12/marked.min.js"></script>
+
     <script>
         const openaiApiKey = "";
 
@@ -153,11 +155,13 @@
 
                 const completion = await fetchOpenAIResponse(messageText)
 
+                const htmlContent = window.marked.parse(completion.choices[0].message.content);
+
                 // Simulate a response from another user
                 setTimeout(() => {
                     typingIndicator.style.display = 'none';
                     const otherMessage = document.createElement('div');
-                    otherMessage.textContent = completion.choices[0].message.content;
+                    otherMessage.innerHTML = htmlContent;
                     otherMessage.classList.add('message', 'other');
                     messages.appendChild(otherMessage);
                     messages.scrollTop = messages.scrollHeight;
